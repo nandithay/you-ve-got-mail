@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Storyboard Mailbox</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f0f0;
+    }
+    .stage {
+      display: none;
+      margin-top: 0px;
+    }
+    .stage img {
+      width: 200px;
+      cursor: pointer;
+    }
+    .enlarged img {
+      width: 700px;
+    }
+    #toggleAudioBtn {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 999;
+        padding: 8px 12px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+}
+#toggleAudioBtn:hover {
+  background-color: #0056b3;
+}
+
+  </style>
+</head>
+<body>
+  <div id="stage1" class="stage" style="display:block">
+    <img
+      src="images/mailbox.png"
+      alt="Mailbox"
+      onclick="showStage(2)"
+      style="height: 1000px; width: 600px;"
+    />
+  
+ <!-- Audio element -->
+<audio id="stage1Audio" src="audio/yougotmail.mp3"></audio>
+
+<!-- Button to control audio -->
+<button id="toggleAudioBtn">Start Audio</button>
+
+
+  </div>
+
+  <div id="stage2" class="stage">
+    <img
+      src="images/envelope.png"
+      alt="Envelope"
+      onclick="showStage(3)"
+      style="height:auto; width: 600px;"
+    />
+  </div>
+
+  <div id="stage3" class="stage">
+    <img
+      src="images/editedletter.jpg"
+      alt="Image 1"
+      onclick="showStage(4)"
+      style="height:800px; width: 900px;"
+    />
+  </div>
+
+  <div id="stage4" class="stage enlarged">
+    <img src="images/l1.jpg" alt="Large Image 1" />
+    <br /><br /><br /><br />
+    <img src="images/l2.jpg" alt="Large Image 2" />
+    <br /><br />
+  </div>
+
+ <script>
+  const audio = document.getElementById('stage1Audio');
+  const audioBtn = document.getElementById('toggleAudioBtn');
+
+  audioBtn.addEventListener('click', () => {
+    if (audio.paused) {
+      audio.play()
+        .then(() => {
+          audioBtn.textContent = "Stop Audio";
+        })
+        .catch(err => {
+          console.warn("Playback failed:", err);
+        });
+    } else {
+      audio.pause();
+      audio.currentTime = 0;
+      audioBtn.textContent = "Start Audio";
+    }
+  });
+
+  function showStage(stageNumber) {
+    const stages = document.querySelectorAll('.stage');
+    stages.forEach(stage => (stage.style.display = 'none'));
+
+    if (stageNumber !== 1 && !audio.paused) {
+      audio.pause();
+      audio.currentTime = 0;
+      audioBtn.textContent = "Start Audio";
+    }
+
+    document.getElementById(`stage${stageNumber}`).style.display = 'block';
+  }
+</script>
+
+
+</body>
+</html>
